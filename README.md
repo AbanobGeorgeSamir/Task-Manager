@@ -67,3 +67,22 @@ Task-Manager/
 ## 👤 Author
 
 **Abanoub George Samir** — [LinkedIn](https://www.linkedin.com/in/abanob-george-samir) · [GitHub](https://github.com/AbanobGeorgeSamir)
+## Deployment
+
+This repository holds two deployables: the Express API in `backend/` and the React client in `frontend/`.
+
+### 1. API (Vercel)
+
+1. Import this repository into Vercel and set **Root Directory** to `backend`.
+2. Add environment variables:
+   - `MONGODB_URI` — your MongoDB Atlas connection string
+   - `JWT_SECRET` — a long random string
+   - `PORT` — optional, the platform provides one at runtime
+3. Deploy, then copy the production URL.
+
+### 2. Client (Vercel)
+
+1. Import the same repository and set **Root Directory** to `frontend`.
+2. Add `VITE_API_URL` pointing at the API, including the `/api` suffix
+   (for example `https://your-api.vercel.app/api`).
+3. Deploy.
