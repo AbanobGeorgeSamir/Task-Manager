@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import Sidebar from "./Sidebar";
 import TaskList from "./TaskList";
 import TaskModal from "./TaskModal";
@@ -13,13 +14,15 @@ import {
 } from "../api";
 
 import { formatDate } from "../utils/helpers";
+import { taskAdded, taskRemoved, taskUpdated } from "../store/tasksSlice";
 
 export default function Dashboard({
   user,
   tasks,
-  setTasks,
   onLogout,
 }) {
+  const dispatch = useDispatch();
+
   const [category, setCategory] =
     useState("all");
 
@@ -68,13 +71,7 @@ export default function Dashboard({
           }),
         });
 
-      setTasks((current) =>
-        current.map((item) =>
-          item._id === task._id
-            ? updatedTask
-            : item
-        )
-      );
+      dispatch(taskUpdated(updatedTask));
     } catch (error) {
       alert(error.message);
     }
@@ -87,11 +84,7 @@ export default function Dashboard({
         headers: authHeaders(),
       });
 
-      setTasks((current) =>
-        current.filter(
-          (task) => task._id !== id
-        )
-      );
+      dispatch(taskRemoved(id));
     } catch (error) {
       alert(error.message);
     }
@@ -107,10 +100,7 @@ export default function Dashboard({
       }
     );
 
-    setTasks((current) => [
-      task,
-      ...current,
-    ]);
+    dispatch(taskAdded(task));
 
     setModalOpen(false);
   }
